@@ -1,0 +1,7 @@
+*.exe
+*.dsym
+main
+libgcc_s_dw2-1.dll
+libstdc++-6.dll
+.vscode
+Makefile
