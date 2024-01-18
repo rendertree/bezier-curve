@@ -593,10 +593,10 @@ int main()
         // gui_draw_check_box("PAUSE BALL",  { 20, 200 + 40 * 4 }, 35, &checkBallPause);
 
 
-        checkBoxMode0.flag = GuiCheckBox({ 20, 200 + 40 * 0, 20, 20 }, "MODE 1", checkBoxMode0.flag);
-        checkBoxMode1.flag = GuiCheckBox({ 20, 200 + 40 * 1, 20, 20 }, "MODE 2", checkBoxMode1.flag);
-        checkBoxDebug.flag = GuiCheckBox({ 20, 200 + 40 * 2, 20, 20 }, "DEBUG MODE", checkBoxDebug.flag);
-        checkBoxGrid.flag = GuiCheckBox({ 20, 200 + 40 * 3, 20, 20 }, "SHOW GRID", checkBoxGrid.flag);
+        checkBoxMode0.flag  = GuiCheckBox({ 20, 200 + 40 * 0, 20, 20 }, "MODE 1", checkBoxMode0.flag);
+        checkBoxMode1.flag  = GuiCheckBox({ 20, 200 + 40 * 1, 20, 20 }, "MODE 2", checkBoxMode1.flag);
+        checkBoxDebug.flag  = GuiCheckBox({ 20, 200 + 40 * 2, 20, 20 }, "DEBUG MODE", checkBoxDebug.flag);
+        checkBoxGrid.flag   = GuiCheckBox({ 20, 200 + 40 * 3, 20, 20 }, "SHOW GRID", checkBoxGrid.flag);
         checkBallPause.flag = GuiCheckBox({ 20, 200 + 40 * 4, 20, 20 }, "PAUSE BALL", checkBallPause.flag);
 
         DrawText("Bézier curve", 20, 10, 24, BLACK);
