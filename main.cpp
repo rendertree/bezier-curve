@@ -374,6 +374,8 @@ int main()
 
     for (int i = 0; i < 4; i++) points[i]->id = i;
 
+    bool manualMode = 0;
+
     while (!WindowShouldClose())
     {
         /*********************************************************************************/
@@ -387,7 +389,7 @@ int main()
         vec2 mousePos = GetMousePosition();
         vec2 worldMousePos = GetScreenToWorld2D(mousePos, cam);
 
-        if (!isBallPause)
+        if (!isBallPause && !manualMode)
         {
             if (forward)
             {
@@ -619,6 +621,9 @@ int main()
         checkBoxDebug.flag  = GuiCheckBox({ 20, 200 + 40 * 2, 20, 20 }, "DEBUG MODE", checkBoxDebug.flag);
         checkBoxGrid.flag   = GuiCheckBox({ 20, 200 + 40 * 3, 20, 20 }, "SHOW GRID", checkBoxGrid.flag);
         checkBallPause.flag = GuiCheckBox({ 20, 200 + 40 * 4, 20, 20 }, "PAUSE BALL", checkBallPause.flag);
+        manualMode          = GuiCheckBox({ 20, 200 + 40 * 5, 20, 20 }, "Manual Mode", manualMode);
+
+        if (manualMode) t = GuiSliderBar({ 80, 240 + 40 * 6, 120, 30 }, "MT Slider", to_string(t).c_str(), t, 0.0f, 1.0f);
 
         DrawText("Bézier curve", 20, 10, 24, BLACK);
         DrawText("by Wildan R Wijanarko", 45, 38, 12, BLACK);
