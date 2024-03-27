@@ -151,7 +151,7 @@ struct cam2d : Camera2D
 {
     cam2d() : ::Camera2D{ offset = { 0.0f, 0.0f }, target = { 0.0f, 0.0f }, rotation = 0.0f, zoom = 1.0f } {}
 
-    vec2 GetMouseDir()
+    vec2 get_mouse_dir()
     {
         vec2 dir = {};
 
@@ -196,9 +196,9 @@ struct cam2d : Camera2D
         const bool mouseRightButton = IsMouseButtonDown(MOUSE_RIGHT_BUTTON);
 
         // Update camera position (Using mouse)
-        if (vec2_length(GetMouseDir()) > 0)
+        if (vec2_length(get_mouse_dir()) > 0)
         {
-            target = target + GetMouseDir();
+            target = target + get_mouse_dir();
         }
         else if (mouseRightButton) 
         {
@@ -246,16 +246,16 @@ inline vec2 bezier(vec2 p0, vec2 p1, vec2 p2, vec2 p3, float t)
 struct gui_check_box { bool flag = 0; };
 
 // Draw a simple button
-bool gui_draw_button(const char* text, rec buttonRect) 
+bool gui_draw_button(const char* text, rec buttonRec) 
 {
     vec2 mousePosition = GetMousePosition();
-    bool isMouseOver = CheckCollisionPointRec(mousePosition, buttonRect);
+    bool isMouseOver = CheckCollisionPointRec(mousePosition, buttonRec);
 
     // Calculate the x and y coordinates for centered text
-    int textX = buttonRect.x + (buttonRect.width - MeasureText(text, 11)) / 2;
-    int textY = buttonRect.y + (buttonRect.height - 11) / 2;
+    int textX = buttonRec.x + (buttonRec.width - MeasureText(text, 11)) / 2;
+    int textY = buttonRec.y + (buttonRec.height - 11) / 2;
 
-    DrawRectangleRec(buttonRect, isMouseOver ? DARKBROWN : LIGHTGRAY);
+    DrawRectangleRec(buttonRec, isMouseOver ? DARKBROWN : LIGHTGRAY);
     DrawText(text, textX, textY, 11, isMouseOver ? BLACK : DARKGRAY);
 
     return (isMouseOver && IsMouseButtonPressed(MOUSE_LEFT_BUTTON));
@@ -471,6 +471,12 @@ int main()
         // Update the object's position with the new calculated position
         ball.pos = newPos;
 
+        vec2 a = vec2_lerp(p0.pos, p1.pos, t);
+        vec2 b = vec2_lerp(p1.pos, p2.pos, t);
+        vec2 c = vec2_lerp(p2.pos, p3.pos, t);      
+        vec2 d = vec2_lerp(a, b, t);
+        vec2 e = vec2_lerp(b, c, t);
+
         /*********************************************************************************/
         /*********************************Draw Function***********************************/
         /*********************************************************************************/
@@ -565,7 +571,23 @@ int main()
             }
         }
 
-        DrawCircleV(worldMousePos, 10, BROWN);
+        DrawCircleV(worldMousePos, 8, BROWN);
+
+        DrawCircleV(a, 12, PINK);
+        DrawCircleV(b, 12, PINK);
+        DrawCircleV(c, 12, PINK);
+        DrawCircleV(d, 12, PINK);
+        DrawCircleV(e, 12, PINK);
+
+        DrawText("A", a.x, a.y, 14, BLACK);
+        DrawText("B", b.x, b.y, 14, BLACK);
+        DrawText("C", c.x, c.y, 14, BLACK);
+        DrawText("D", d.x, d.y, 14, BLACK);
+        DrawText("E", e.x, e.y, 14, BLACK);
+
+        DrawLineV(a, b, PURPLE);
+        DrawLineV(b, c, PURPLE);
+        DrawLineV(d, e, PURPLE);
 
         ball.draw();
 
@@ -591,7 +613,6 @@ int main()
         // gui_draw_check_box("DEBUG MODE",  { 20, 200 + 40 * 2 }, 35, &checkBoxDebug);
         // gui_draw_check_box("SHOW GRID",   { 20, 200 + 40 * 3 }, 35, &checkBoxGrid);
         // gui_draw_check_box("PAUSE BALL",  { 20, 200 + 40 * 4 }, 35, &checkBallPause);
-
 
         checkBoxMode0.flag  = GuiCheckBox({ 20, 200 + 40 * 0, 20, 20 }, "MODE 1", checkBoxMode0.flag);
         checkBoxMode1.flag  = GuiCheckBox({ 20, 200 + 40 * 1, 20, 20 }, "MODE 2", checkBoxMode1.flag);
